@@ -89,7 +89,28 @@ class Account(Resource):
     '''
 
     def get(self, acc_no, start_time=None, end_time=None, asset_type=None):
-        pass
+        # check account
+        abort_if_invalid_account(acc_no)
+        ret_balance = 0
+        account = db_session.get(Asset_Account, acc_no)
+        assets = account.assets
+
+        # compute balance based on time
+
+        # return specific asset
+        if asset_type != None:
+            for asset in assets:
+                if asset.asset == asset_type:
+                    ret_balance = {'asset': asset.asset,
+                                   'amount': asset.amount}
+        # return all assets
+        else:
+            ret_balance = {'assets': []}
+            for asset in assets:
+                ret_balance['assets'].append(
+                    {'asset': asset.asset, 'amount': asset.amount})
+
+        return ret_balance, 201
 
     '''
     Deposit asset into account.  Parameters:
