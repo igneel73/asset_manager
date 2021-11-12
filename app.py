@@ -57,6 +57,23 @@ def deposit_to_account(acc_no, asset_type, amt):
         db_session.flush()
 
 
+def withdraw_from_account(acc_no, asset_type, amt):
+    # check for sufficient balance
+    abort_if_invalid_account(acc_no)
+    abort_if_insufficient_bal(acc_no, asset_type, amt)
+
+    # store transaction
+    new_transaction = Asset_Transaction(
+        asset=asset_type, amount=(-amt), owner_account=acc_no)
+    db_session.add(new_transaction)
+
+    # debit asset from account
+    asset_to_debit = Asset.query.filter(
+        Asset.owner_account == acc_no, Asset.asset == asset_type).first()
+    asset_to_debit.amount -= amt
+    db_session.flush()
+
+
 # Resource
 
 
@@ -99,7 +116,15 @@ class Account(Resource):
     '''
 
     def put(self, acc_no):
-        pass
+        # parse arguments
+        args = parser.parse_args()
+        asset_type = args['asset_type']
+        withdrawal_amt = args['withdrawal_amt']
+
+        withdraw_from_account(acc_no, asset_type, withdrawal_amt)
+
+        db_session.commit()
+        return acc_no, 201
 
     '''
     Exchange assets within an account, or between different accounts. 
