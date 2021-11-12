@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort
 from database import init_db, db_session
-from models import Asset, Asset_Account
+from models import Asset, Asset_Account, Asset_Transaction
 
 
 # setup
@@ -33,6 +33,29 @@ def abort_if_invalid_account(acc_no):
     if account == None:
         abort(401, message=f'account {acc_no} does not exist')
 
+# helper function
+
+
+def deposit_to_account(acc_no, asset_type, amt):
+
+    abort_if_invalid_account(acc_no)
+    # store account transaction
+    new_transaction = Asset_Transaction(
+        asset=asset_type, amount=amt, owner_account=acc_no)
+    db_session.add(new_transaction)
+
+    # credit asset to account
+    # create asset row if it doesn't exist
+    asset_to_credit = Asset.query.filter(
+        Asset.owner_account == acc_no, Asset.asset == asset_type).first()
+    if asset_to_credit == None:
+        asset_to_credit = Asset(
+            owner_account=acc_no, asset=asset_type, amount=amt)
+        db_session.add(asset_to_credit)
+    else:
+        asset_to_credit.amount += amt
+        db_session.flush()
+
 
 # Resource
 
@@ -58,7 +81,15 @@ class Account(Resource):
     '''
 
     def post(self, acc_no):
-        pass
+        # parse args
+        args = parser.parse_args()
+        asset_type = args['asset_type']
+        deposit_amt = args['deposit_amt']
+
+        deposit_to_account(acc_no, asset_type, deposit_amt)
+
+        db_session.commit()
+        return acc_no, 201
 
     '''
     Withdraw assets from account.  Parameters:
