@@ -12,7 +12,55 @@ init_db()
 
 
 class Account(Resource):
-    pass
+
+    '''
+    Show account balances.  Parameters:
+    Account number
+    Optional start time
+    Optional end time
+    Optional asset types
+    '''
+
+    def get(self, acc_no, start_time=None, end_time=None, asset_type=None):
+        pass
+
+    '''
+    Deposit asset into account.  Parameters:
+    Account number
+    Asset type
+    Asset amount to deposit
+    '''
+
+    def post(self, acc_no):
+        pass
+
+    '''
+    Withdraw assets from account.  Parameters:
+    Account number
+    Asset type
+    Asset amount to withdraw
+    '''
+
+    def put(self, acc_no):
+        pass
+
+    '''
+    Exchange assets within an account, or between different accounts. 
+    Parameters:
+    From:
+    Account number
+    Asset type
+    Amount
+    To:
+    Account number
+    Asset type
+    (the backend should compute the resulting target 
+    amount using some reasonable mechanism, or describe
+    how that computation would be done)
+    '''
+
+    def patch(self):
+        pass
 
 
 # Routing
