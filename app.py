@@ -1,3 +1,4 @@
+import requests
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort
 from database import init_db, db_session
@@ -142,7 +143,30 @@ class Account(Resource):
     '''
 
     def patch(self):
-        pass
+        # parse arguments
+        args = parser.parse_args()
+        src_acc_no = args['src_acc_no']
+        dest_acc_no = args['dest_acc_no']
+        src_asset_type = args['src_asset_type']
+        dest_asset_type = args['dest_asset_type']
+        transfer_amt = args['transfer_amt']
+        exchange_amt = 0
+
+        # find exchange rate
+        if src_asset_type != dest_asset_type:
+            request_url = f'https://api.crosstower.com/api/3/public/price/rate?from={src_asset_type}&to={dest_asset_type}'
+            exchange_response = requests.get(url=request_url).json()
+            exchange_amt = transfer_amt * \
+                float(exchange_response[src_asset_type]['price'])
+        else:
+            exchange_amt = transfer_amt
+
+        # call deposit and withdrawal
+        withdraw_from_account(src_acc_no, src_asset_type, transfer_amt)
+        deposit_to_account(dest_acc_no, dest_asset_type, exchange_amt)
+
+        db_session.commit()
+        return src_acc_no, 201
 
 
 # Routing
