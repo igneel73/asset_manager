@@ -3,7 +3,7 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort
 from database import init_db, db_session
 from models import Asset, Asset_Account, Asset_Transaction
-
+from sqlalchemy import select, func
 
 # setup
 app = Flask(__name__)
@@ -96,6 +96,20 @@ class Account(Resource):
         assets = account.assets
 
         # compute balance based on time
+        if start_time != None:
+            assets = db_session.execute(
+                select(Asset_Transaction.asset,
+                       func.sum(Asset_Transaction.amount).label("amount")).
+                group_by(
+                    Asset_Transaction.asset
+                ).
+                having(
+                    Asset_Transaction.owner_account == acc_no,
+                    Asset_Transaction.timestamp >= start_time,
+                    Asset_Transaction.timestamp <= end_time
+                )
+            ).all()
+            ret_balance = {'assets': []}
 
         # return specific asset
         if asset_type != None:
