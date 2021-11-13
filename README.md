@@ -39,7 +39,7 @@ python run.py
             ]
         }
 
-    ######DEPOSIT ROUTE
+    ###### DEPOSIT ROUTE
     POST account/acc_no -> deposit asset into account
         args -> deposit_amt : amount to deposit
                 asset_type : asset to deposit
@@ -53,7 +53,7 @@ python run.py
         }
 
 
-    ######WITHDRAWAL ROUTE
+    ###### WITHDRAWAL ROUTE
     PUT account/acc_no -> withdraw asset from account
         args -> withdrawal_amt : amount to withdraw
                 asset_type : asset to withdraw
@@ -65,7 +65,7 @@ python run.py
             asset_type : asset type
         }
 
-    ######EXCHANGE ROUTE
+    ###### EXCHANGE ROUTE
     PATCH account/ -> transfer asset from one account to another
         args -> src_acc_no : source account
                 dest_acc_no : destination account
