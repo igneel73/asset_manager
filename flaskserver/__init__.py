@@ -1,15 +1,18 @@
 '''
 api setup and route definitions
 '''
+import flaskserver.models
+from flaskserver.database import init_db, db_session
 from flask import Flask
 from flask_restful import Api
-from flaskserver.database import init_db, db_session
-import flaskserver.models
+
 from flaskserver.resource import Account
 
 # setup
 app = Flask(__name__)
+app.config['DATABASE'] = 'sqlite:///test.db'
 api = Api(app)
+
 init_db()
 
 # Routing
