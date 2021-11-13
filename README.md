@@ -97,4 +97,4 @@ What to work on given more time
 1. mechanism to cache exchange rates for faster computation
 2. Unit test coverage
 3. private routes with authentication
-4. More comprehensive validations
+4. More comprehensive validations - valid asset types

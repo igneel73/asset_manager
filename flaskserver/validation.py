@@ -7,6 +7,7 @@ from flaskserver.database import db_session
 
 parser = reqparse.RequestParser()
 parser.add_argument('asset_type')
+parser.add_argument('asset_types')
 parser.add_argument('deposit_amt', type=float)
 parser.add_argument('withdrawal_amt', type=float)
 parser.add_argument('src_acc_no', type=int)
@@ -17,8 +18,7 @@ parser.add_argument('transfer_amt', type=float)
 
 
 def abort_if_insufficient_bal(acc_no, asset_type, amt):
-    """
-    """
+    """return a bad request error if account does not have enough balance"""
     asset = Asset.query.filter(
         Asset.owner_account == acc_no, Asset.asset == asset_type).first()
     if asset == None or asset.amount < amt:
@@ -26,8 +26,7 @@ def abort_if_insufficient_bal(acc_no, asset_type, amt):
 
 
 def abort_if_invalid_account(acc_no):
-    """
-    """
+    """return a bad request error if account does not exist"""
     account = db_session.get(Asset_Account, acc_no)
     if account == None:
         abort(401, message=f'account {acc_no} does not exist')
