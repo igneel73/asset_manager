@@ -10,7 +10,6 @@ from flaskserver.resource import Account
 
 # setup
 app = Flask(__name__)
-app.config['DATABASE'] = 'sqlite:///test.db'
 api = Api(app)
 
 init_db()
