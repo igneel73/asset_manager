@@ -18,10 +18,12 @@ with functionality for
 2. pipenv
 
 To install dependencies execute the following on the command line
-`pipenv install`
+
+    pipenv shell
+    pipenv install
 
 To run the server execute the following on the command line
-`python run.py`
+python run.py
 
 #### Routes
 
@@ -77,11 +79,22 @@ To run the server execute the following on the command line
     transfer_amt : amount to be transferred
 
     Returns:
-    TODO
+        {
+            'src_account_no': src_acc_no,
+            'dest_asset_type':  dest_asset_type,
+            'transfer_amt': transfer_amt,
+            'src_asset_type': src_asset_type,
+            'dest_asset_type': src_asset_type,
+            'exchange_amt': exchange_amt
+        }
+
+#### Errors
 
 #### Future Work
 
+What to work on given more time
+
 1. mechanism to cache exchange rates for faster computation
-2. Better test coverage
+2. Unit test coverage
 3. private routes with authentication
-4.
+4. More comprehensive validations
