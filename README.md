@@ -41,7 +41,7 @@ To run the server execute the following on the command line
 
 ###### DEPOSIT ROUTE
 
-    ```POST account/acc_no -> deposit asset into account
+    POST account/acc_no -> deposit asset into account
     args -> deposit_amt : amount to deposit
     asset_type : asset to deposit
 
@@ -51,11 +51,11 @@ To run the server execute the following on the command line
         account_no : account credited to
         deposit_amt : deposited amount
         asset_type : asset type
-    }```
+    }
 
 ###### WITHDRAWAL ROUTE
 
-    ```PUT account/acc_no -> withdraw asset from account
+    PUT account/acc_no -> withdraw asset from account
     args -> withdrawal_amt : amount to withdraw
     asset_type : asset to withdraw
 
@@ -65,11 +65,11 @@ To run the server execute the following on the command line
         account_no : debited account
         withdrawal_amt : debited amount
         asset_type : asset type
-    }```
+    }
 
 ###### EXCHANGE ROUTE
 
-    ```PATCH account/ -> transfer asset from one account to another
+    PATCH account/ -> transfer asset from one account to another
     args -> src_acc_no : source account
     dest_acc_no : destination account
     src_asset_type : source asset
@@ -77,7 +77,7 @@ To run the server execute the following on the command line
     transfer_amt : amount to be transferred
 
     Returns:
-    TODO```
+    TODO
 
 #### Future Work
 
