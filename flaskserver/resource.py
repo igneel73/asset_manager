@@ -100,7 +100,12 @@ class Account(Resource):
         deposit_to_account(acc_no, asset_type, deposit_amt)
 
         db_session.commit()
-        return acc_no, 201
+        ret_res = {
+            'account_no': acc_no,
+            'deposit_amt': deposit_amt,
+            'asset_type': asset_type
+        }
+        return ret_res, 201
 
     '''
     Withdraw assets from account.  
@@ -126,7 +131,12 @@ class Account(Resource):
         withdraw_from_account(acc_no, asset_type, withdrawal_amt)
 
         db_session.commit()
-        return acc_no, 201
+        ret_res = {
+            'account_no': acc_no,
+            'withdrawal_amt': withdrawal_amt,
+            'asset_type': asset_type
+        }
+        return ret_res, 201
 
     '''
     Exchange assets within an account, or between different accounts. 
@@ -137,9 +147,16 @@ class Account(Resource):
         dest_acc_no - parsed arg - destination account
         src_asset_type - parsed arg - source asset
         dest_asset_type - parsed arg - destination asset
-        transfet_amt - parsed arg - amount to be transfered from source
+        transfer_amt - parsed arg - amount to be transfered from source
     Returns:
-    TODO
+        {
+            'src_account_no': src_acc_no,
+            'dest_asset_type':  dest_asset_type,
+            'transfer_amt': transfer_amt,
+            'src_asset_type': src_asset_type,
+            'dest_asset_type': src_asset_type,
+            'exchange_amt': exchange_amt
+        }
     '''
 
     def patch(self):
@@ -166,4 +183,12 @@ class Account(Resource):
         deposit_to_account(dest_acc_no, dest_asset_type, exchange_amt)
 
         db_session.commit()
-        return src_acc_no, 201
+        ret_res = {
+            'src_account_no': src_acc_no,
+            'dest_asset_type':  dest_asset_type,
+            'transfer_amt': transfer_amt,
+            'src_asset_type': src_asset_type,
+            'dest_asset_type': src_asset_type,
+            'exchange_amt': exchange_amt
+        }
+        return ret_res, 201
