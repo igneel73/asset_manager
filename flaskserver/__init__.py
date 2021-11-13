@@ -1,6 +1,6 @@
-'''
+"""
 api setup and route definitions
-'''
+"""
 import flaskserver.models
 from flaskserver.database import init_db, db_session
 from flask import Flask
@@ -16,7 +16,7 @@ init_db()
 
 # Routing
 
-'''
+"""
     BALANCE ROUTES
     GET account/acc_no -> get account asset balances
     GET account/acc_no/asset_type -> get specific asset balance
@@ -40,7 +40,7 @@ init_db()
                 src_asset_type : source asset
                 dest_asset_type : destination asset
                 transfer_amt : amount to be transferred
-'''
+"""
 api.add_resource(Account,
                  '/account',
                  '/account/<acc_no>',

@@ -7,13 +7,12 @@ from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from flaskserver.database import Base
 
-'''
-Asset Account - 
-main account table back propagated with transactions, and assets
-'''
-
 
 class Asset_Account(Base):
+    """
+    Asset Account - 
+    main account table back propagated with transactions, and assets
+    """
     __tablename__ = 'accounts'
     account_no = Column(Integer, primary_key=True, nullable=False)
     assets = relationship("Asset")
@@ -26,13 +25,11 @@ class Asset_Account(Base):
         return f'<Account no. {self.account_no}>'
 
 
-'''
-Asset -
-record of all assets ref'd by account no.
-'''
-
-
 class Asset(Base):
+    """
+    Asset -
+    record of all assets ref'd by account no.
+    """
     __tablename__ = 'assets'
     id = Column(Integer, primary_key=True, nullable=False)
     asset = Column(String(10), nullable=False)
@@ -41,13 +38,11 @@ class Asset(Base):
     owner = relationship("Asset_Account", back_populates="assets")
 
 
-'''
-Asset Transaction -
-record of every transaction ref'd by acc no
-'''
-
-
 class Asset_Transaction(Base):
+    """
+    Asset Transaction -
+    record of every transaction ref'd by acc no
+    """
     __tablename__ = 'transactions'
     id = Column(Integer, primary_key=True, nullable=False)
     asset = Column(String(10), nullable=False)

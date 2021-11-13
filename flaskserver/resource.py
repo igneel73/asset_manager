@@ -1,6 +1,6 @@
-'''
+"""
 Api Resource definitons
-'''
+"""
 
 import requests
 from flask_restful import Resource
@@ -11,34 +11,32 @@ from flaskserver.helper import deposit_to_account, withdraw_from_account
 from flaskserver.models import Asset_Account, Asset_Transaction
 from sqlalchemy import select, func
 
-'''
-Asset Account that handles
- - computing and showing balances
- - depositing into account
- - withdrawing from account
- - exchanging between accounts
-'''
-
 
 class Account(Resource):
-
-    '''
-    Show account balances.  
-    Parameters:
-        acc_no - query arg - Account number
-        start_time - query arg - Optional start time
-        end_time - query arg - Optional end time 
-        asset_type - query arg - Optional asset types to return
-    Returns:
-        {
-            assets : [
-                asset : asset type
-                amount : asset amount
-            ]
-        }
-    '''
+    """
+    Asset Account that handles
+    - computing and showing balances
+    - depositing into account
+    - withdrawing from account
+    - exchanging between accounts
+    """
 
     def get(self, acc_no, start_time=None, end_time=None, asset_type=None):
+        """
+        Show account balances.  
+        Parameters:
+            acc_no - query arg - Account number
+            start_time - query arg - Optional start time
+            end_time - query arg - Optional end time 
+            asset_type - query arg - Optional asset types to return
+        Returns:
+            {
+                assets : [
+                    asset : asset type
+                    amount : asset amount
+                ]
+            }
+        """
         # check account
         abort_if_invalid_account(acc_no)
         ret_balance = 0
@@ -76,22 +74,21 @@ class Account(Resource):
 
         return ret_balance, 201
 
-    '''
-    Deposit asset into account.  
-    Parameters:
-        acc_no - query arg - Account number
-        Asset type - parsed arg - Asset type
-        deposit_amt - parsed arg - Asset amount to deposit 
-    Returns:
-        if success
-        {
-            account_no : account credited to
-            deposit_amt : deposited amount
-            asset_type : asset type
-        }
-    '''
-
     def post(self, acc_no):
+        """
+        Deposit asset into account.  
+        Parameters:
+            acc_no - query arg - Account number
+            Asset type - parsed arg - Asset type
+            deposit_amt - parsed arg - Asset amount to deposit 
+        Returns:
+            if success
+            {
+                account_no : account credited to
+                deposit_amt : deposited amount
+                asset_type : asset type
+            }
+        """
         # parse args
         args = parser.parse_args()
         asset_type = args['asset_type']
@@ -107,22 +104,21 @@ class Account(Resource):
         }
         return ret_res, 201
 
-    '''
-    Withdraw assets from account.  
-    Parameters:
-        acc_no - query arg - Account number
-        Asset type - parsed arg - Asset type
-        withdrawal_amt - parsed arg - Asset amount to withdraw
-    Returns:
-        if success
-        {
-            account_no : debited account
-            withdrawal_amt : debited amount
-            asset_type : asset type
-        }
-    '''
-
     def put(self, acc_no):
+        """
+        Withdraw assets from account.  
+        Parameters:
+            acc_no - query arg - Account number
+            Asset type - parsed arg - Asset type
+            withdrawal_amt - parsed arg - Asset amount to withdraw
+        Returns:
+            if success
+            {
+                account_no : debited account
+                withdrawal_amt : debited amount
+                asset_type : asset type
+            }
+        """
         # parse arguments
         args = parser.parse_args()
         asset_type = args['asset_type']
@@ -138,28 +134,27 @@ class Account(Resource):
         }
         return ret_res, 201
 
-    '''
-    Exchange assets within an account, or between different accounts. 
-    uses the crosstower api to grab the current exchange price
-    in case of different src and dest asset types
-    Parameters:
-        src_acc_no - parsed arg - source account
-        dest_acc_no - parsed arg - destination account
-        src_asset_type - parsed arg - source asset
-        dest_asset_type - parsed arg - destination asset
-        transfer_amt - parsed arg - amount to be transfered from source
-    Returns:
-        {
-            'src_account_no': src_acc_no,
-            'dest_asset_type':  dest_asset_type,
-            'transfer_amt': transfer_amt,
-            'src_asset_type': src_asset_type,
-            'dest_asset_type': src_asset_type,
-            'exchange_amt': exchange_amt
-        }
-    '''
-
     def patch(self):
+        """
+        Exchange assets within an account, or between different accounts. 
+        uses the crosstower api to grab the current exchange price
+        in case of different src and dest asset types
+        Parameters:
+            src_acc_no - parsed arg - source account
+            dest_acc_no - parsed arg - destination account
+            src_asset_type - parsed arg - source asset
+            dest_asset_type - parsed arg - destination asset
+            transfer_amt - parsed arg - amount to be transfered from source
+        Returns:
+            {
+                'src_account_no': src_acc_no,
+                'dest_asset_type':  dest_asset_type,
+                'transfer_amt': transfer_amt,
+                'src_asset_type': src_asset_type,
+                'dest_asset_type': src_asset_type,
+                'exchange_amt': exchange_amt
+            }
+        """
         # parse arguments
         args = parser.parse_args()
         src_acc_no = args['src_acc_no']
