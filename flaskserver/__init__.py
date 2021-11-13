@@ -1,3 +1,6 @@
+'''
+api setup and route definitions
+'''
 from flask import Flask
 from flask_restful import Api
 from flaskserver.database import init_db, db_session

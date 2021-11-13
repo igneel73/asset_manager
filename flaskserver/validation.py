@@ -1,8 +1,10 @@
+'''
+argument validation, and parsing
+'''
 from flask_restful import reqparse, abort
 from flaskserver.models import Asset, Asset_Account
 from flaskserver.database import db_session
 
-# argument parsing, and validations
 parser = reqparse.RequestParser()
 parser.add_argument('asset_type')
 parser.add_argument('deposit_amt', type=float)

@@ -1,3 +1,6 @@
+'''
+main point of execution
+'''
 from flaskserver import app
 from flaskserver.database import db_session
 

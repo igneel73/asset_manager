@@ -1,3 +1,7 @@
+'''
+Schema definitions for data models
+'''
+
 from datetime import datetime
 from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship

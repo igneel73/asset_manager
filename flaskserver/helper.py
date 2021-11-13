@@ -1,9 +1,11 @@
+'''
+helper function definitions
+'''
 from flaskserver.database import db_session
 from flaskserver.models import Asset_Transaction, Asset
 from flaskserver.validation import abort_if_insufficient_bal, abort_if_invalid_account
 
 
-# helper functions
 def deposit_to_account(acc_no, asset_type, amt):
 
     abort_if_invalid_account(acc_no)

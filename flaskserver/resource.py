@@ -1,3 +1,7 @@
+'''
+Api Resource definitons
+'''
+
 import requests
 from flask_restful import Resource
 from flaskserver.validation import abort_if_invalid_account
@@ -7,17 +11,31 @@ from flaskserver.helper import deposit_to_account, withdraw_from_account
 from flaskserver.models import Asset_Account, Asset_Transaction
 from sqlalchemy import select, func
 
-# Resource
+'''
+Asset Account that handles
+ - computing and showing balances
+ - depositing into account
+ - withdrawing from account
+ - exchanging between accounts
+'''
 
 
 class Account(Resource):
 
     '''
-    Show account balances.  Parameters:
-    Account number
-    Optional start time
-    Optional end time
-    Optional asset types
+    Show account balances.  
+    Parameters:
+        acc_no - query arg - Account number
+        start_time - query arg - Optional start time
+        end_time - query arg - Optional end time 
+        asset_type - query arg - Optional asset types to return
+    Returns:
+        {
+            assets : [
+                asset : asset type
+                amount : asset amount
+            ]
+        }
     '''
 
     def get(self, acc_no, start_time=None, end_time=None, asset_type=None):
@@ -59,10 +77,18 @@ class Account(Resource):
         return ret_balance, 201
 
     '''
-    Deposit asset into account.  Parameters:
-    Account number
-    Asset type
-    Asset amount to deposit
+    Deposit asset into account.  
+    Parameters:
+        acc_no - query arg - Account number
+        Asset type - parsed arg - Asset type
+        deposit_amt - parsed arg - Asset amount to deposit 
+    Returns:
+        if success
+        {
+            account_no : account credited to
+            deposit_amt : deposited amount
+            asset_type : asset type
+        }
     '''
 
     def post(self, acc_no):
@@ -77,10 +103,18 @@ class Account(Resource):
         return acc_no, 201
 
     '''
-    Withdraw assets from account.  Parameters:
-    Account number
-    Asset type
-    Asset amount to withdraw
+    Withdraw assets from account.  
+    Parameters:
+        acc_no - query arg - Account number
+        Asset type - parsed arg - Asset type
+        withdrawal_amt - parsed arg - Asset amount to withdraw
+    Returns:
+        if success
+        {
+            account_no : debited account
+            withdrawal_amt : debited amount
+            asset_type : asset type
+        }
     '''
 
     def put(self, acc_no):
@@ -96,17 +130,16 @@ class Account(Resource):
 
     '''
     Exchange assets within an account, or between different accounts. 
+    uses the crosstower api to grab the current exchange price
+    in case of different src and dest asset types
     Parameters:
-    From:
-    Account number
-    Asset type
-    Amount
-    To:
-    Account number
-    Asset type
-    (the backend should compute the resulting target 
-    amount using some reasonable mechanism, or describe
-    how that computation would be done)
+        src_acc_no - parsed arg - source account
+        dest_acc_no - parsed arg - destination account
+        src_asset_type - parsed arg - source asset
+        dest_asset_type - parsed arg - destination asset
+        transfet_amt - parsed arg - amount to be transfered from source
+    Returns:
+    TODO
     '''
 
     def patch(self):
