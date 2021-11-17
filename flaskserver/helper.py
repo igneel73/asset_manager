@@ -8,7 +8,7 @@ from flaskserver.validation import abort_if_insufficient_bal, abort_if_invalid_a
 
 def deposit_to_account(acc_no, asset_type, amt):
     """
-
+    Deposit given amount of asset type into given account
     """
     abort_if_invalid_account(acc_no)
     # store account transaction
@@ -31,7 +31,7 @@ def deposit_to_account(acc_no, asset_type, amt):
 
 def withdraw_from_account(acc_no, asset_type, amt):
     """
-
+    Withdraw given amount of asset type from given account
     """
     # check for sufficient balance
     abort_if_invalid_account(acc_no)

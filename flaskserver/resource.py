@@ -25,10 +25,10 @@ class Account(Resource):
         """
         Show account balances.  
         Parameters:
-            acc_no - query arg - Account number
-            start_time - query arg - Optional start time
-            end_time - query arg - Optional end time 
-            asset_type - query arg - Optional asset types to return
+            acc_no - query arg - int - Account number
+            start_time - query arg - str - Optional start time
+            end_time - query arg - str - Optional end time 
+            asset_type - query arg - str - Optional asset type to return
         Returns:
             {
                 assets : [
@@ -52,8 +52,8 @@ class Account(Resource):
                     Asset_Transaction.asset
                 ).
                 having(
-                    Asset_Transaction.owner_account == acc_no,
-                    Asset_Transaction.timestamp >= start_time,
+                    Asset_Transaction.owner_account == acc_no and
+                    Asset_Transaction.timestamp >= start_time and
                     Asset_Transaction.timestamp <= end_time
                 )
             ).all()
@@ -78,9 +78,9 @@ class Account(Resource):
         """
         Deposit asset into account.  
         Parameters:
-            acc_no - query arg - Account number
-            Asset type - parsed arg - Asset type
-            deposit_amt - parsed arg - Asset amount to deposit 
+            acc_no - query arg - int - Account number
+            Asset type - parsed arg - str - Asset type
+            deposit_amt - parsed arg - float - Asset amount to deposit 
         Returns:
             if success
             {
@@ -108,9 +108,9 @@ class Account(Resource):
         """
         Withdraw assets from account.  
         Parameters:
-            acc_no - query arg - Account number
-            Asset type - parsed arg - Asset type
-            withdrawal_amt - parsed arg - Asset amount to withdraw
+            acc_no - query arg - int - Account number
+            Asset type - parsed arg - str - Asset type
+            withdrawal_amt - parsed arg - float - Asset amount to withdraw
         Returns:
             if success
             {
@@ -140,11 +140,11 @@ class Account(Resource):
         uses the crosstower api to grab the current exchange price
         in case of different src and dest asset types
         Parameters:
-            src_acc_no - parsed arg - source account
-            dest_acc_no - parsed arg - destination account
-            src_asset_type - parsed arg - source asset
-            dest_asset_type - parsed arg - destination asset
-            transfer_amt - parsed arg - amount to be transfered from source
+            src_acc_no - parsed arg - int - source account
+            dest_acc_no - parsed arg - int - destination account
+            src_asset_type - parsed arg - str - source asset
+            dest_asset_type - parsed arg - str - destination asset
+            transfer_amt - parsed arg - float - amount to be transfered from source
         Returns:
             {
                 'src_account_no': src_acc_no,

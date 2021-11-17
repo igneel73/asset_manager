@@ -41,6 +41,12 @@ python run.py
         ]
     }
 
+    Examples:
+    http://127.0.0.1:5000/account/1
+    http://127.0.0.1:5000/account/1/BTC
+    http://127.0.0.1:5000/account/1/2021-11-13%2014:08:18.431806/2021-11-13%2014:11:22.550878
+    http://127.0.0.1:5000/account/1/BTC/2021-11-13%2014:08:18.431806/2021-11-13%2014:11:22.550878
+
 ###### DEPOSIT ROUTE
 
     POST account/acc_no -> deposit asset into account
@@ -55,6 +61,9 @@ python run.py
         asset_type : asset type
     }
 
+    Example:
+    curl http://127.0.0.1:5000/account/1 -d "deposit_amt=2.3401" -d "asset_type=USD" -X POST
+
 ###### WITHDRAWAL ROUTE
 
     PUT account/acc_no -> withdraw asset from account
@@ -68,6 +77,9 @@ python run.py
         withdrawal_amt : debited amount
         asset_type : asset type
     }
+
+    Example:
+    curl http://127.0.0.1:5000/account/1 -d "withdrawal_amt=2.3401" -d "asset_type=USD" -X PUT
 
 ###### EXCHANGE ROUTE
 
@@ -88,7 +100,13 @@ python run.py
             'exchange_amt': exchange_amt
         }
 
+    Example:
+    curl http://127.0.0.1:5000/account -d "src_acc_no=1" -d "dest_acc_no=2" -d "src_asset_type=USD" -d "dest_asset_type=BTC" -d "transfer_amt=200" -X PATCH
+
 #### Errors
+
+    401 - if provided acc_no doesn't exist
+    401 - if provided acc_no doesn't have sufficient balance
 
 #### Future Work
 

@@ -5,6 +5,7 @@ import flaskserver.models
 from flaskserver.database import init_db, db_session
 from flask import Flask
 from flask_restful import Api
+from flaskserver.models import Asset_Account
 
 from flaskserver.resource import Account
 
@@ -12,7 +13,16 @@ from flaskserver.resource import Account
 app = Flask(__name__)
 api = Api(app)
 
+# initialize dummy database
 init_db()
+if Asset_Account.query.all() == []:
+    account_1 = Asset_Account()
+    account_2 = Asset_Account()
+    account_3 = Asset_Account()
+    db_session.add(account_1)
+    db_session.add(account_2)
+    db_session.add(account_3)
+    db_session.commit()
 
 # Routing
 
@@ -45,6 +55,6 @@ api.add_resource(Account,
                  '/account',
                  '/account/<acc_no>',
                  '/account/<acc_no>/<string:asset_type>',
-                 '/account/<acc_no>/<string:asset_type>/<int:start_time>/<int:end_time>',
-                 '/account/<acc_no>/<int:start_time>/<int:end_time>',
+                 '/account/<acc_no>/<string:asset_type>/<string:start_time>/<string:end_time>',
+                 '/account/<acc_no>/<string:start_time>/<string:end_time>',
                  endpoint='account')
