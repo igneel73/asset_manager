@@ -14,7 +14,7 @@ with functionality for
 
 ###### Requires
 
-1. python 3..8.x
+1. python 3.8.x
 2. pipenv
 
 To install dependencies execute the following on the command line
@@ -23,7 +23,8 @@ To install dependencies execute the following on the command line
     pipenv install
 
 To run the server execute the following on the command line
-python run.py
+
+    python run.py
 
 #### Routes
 
